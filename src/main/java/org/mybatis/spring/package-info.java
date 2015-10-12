@@ -14,8 +14,16 @@
  *    limitations under the License.
  */
 /**
- * Contains core classes to build the MyBatis integration with Spring3.X.
+ * Title: package-info<br/>
+ * Description: <br/>
+ * Company: gigold<br/>
+ * @author Devin
+ * @date 2015年10月10日下午3:55:37
  *
- * @version $Id$
  */
 package org.mybatis.spring;
+class CodeItem{
+    
+    public static final String DATAERROR="60000";
+    
+}

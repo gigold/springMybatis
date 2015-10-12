@@ -38,6 +38,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.dao.support.PersistenceExceptionTranslator;
 
+import com.gigold.pay.framework.base.exception.GOExceptionTranslator;
+import com.gigold.pay.framework.core.exception.AbortException;
+
 /**
  * Thread safe, Spring managed, {@code SqlSession} that works with Spring
  * transaction management to ensure that that the actual SqlSession used is the
@@ -396,10 +399,14 @@ public class SqlSessionTemplate implements SqlSession {
           // release the connection to avoid a deadlock if the translator is no loaded. See issue #22
           closeSqlSession(sqlSession, SqlSessionTemplate.this.sqlSessionFactory);
           sqlSession = null;
-          Throwable translated = SqlSessionTemplate.this.exceptionTranslator.translateExceptionIfPossible((PersistenceException) unwrapped);
+          Throwable translated = ((GOExceptionTranslator)SqlSessionTemplate.this.exceptionTranslator).translateException((PersistenceException) unwrapped);
           if (translated != null) {
             unwrapped = translated;
+          }else{
+              unwrapped = new AbortException(CodeItem.DATAERROR,"mybatis has unwarpException3",this.getClass(),unwrapped);
           }
+        }else{
+            unwrapped = new AbortException(CodeItem.DATAERROR,"mybatis has unwarpException4",this.getClass(),unwrapped);
         }
         throw unwrapped;
       } finally {
