@@ -15,6 +15,7 @@
   limitations under the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
 
  
@@ -23,7 +24,7 @@
 
   <artifactId>mybatis-spring</artifactId>
   <!-- 吉高自行维护一套版本 from1.2.3 -->
-  <version>6.1.0-SNAPSHOT</version>
+  <version>6.1.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>mybatis-spring</name>
@@ -42,14 +43,26 @@
     <spring.version>4.2.1.RELEASE</spring.version>
     <framework.version>0.1.0-SNAPSHOT</framework.version>
   </properties>
+  
+  <!-- 设定主仓库，按设定顺序进行查找。 -->
+    <repositories>
+
+        <repository>
+            <id>releases</id>
+            <name>Team Nexus Repository</name>
+            <url>http://nexus.sqbj.com/content/groups/public</url>
+        </repository>
+
+    </repositories>
 
   <dependencies>
     <!-- Compile dependencies -->
-    <dependency>
+    
+   	 <dependency>
         <groupId>com.gigold.pay</groupId>
   		<artifactId>pay-framework-version</artifactId>
-  		<version>0.1.0-SNAPSHOT</version>
-      </dependency>
+  		<version>0.1.5-SNAPSHOT</version>
+  	  </dependency>
      
     <dependency>
       <groupId>org.mybatis</groupId>
@@ -274,12 +287,12 @@
       <repository> 
           <id>releases</id> 
           <name>Gigold Nexus Repository</name> 
-          <url>http://123.57.152.75:8081/nexus/content/repositories/releases</url> 
+          <url>http://nexus.sqbj.com/content/repositories/releases</url> 
       </repository> 
       <snapshotRepository> 
           <id>snapshots</id> 
           <name>Gigold Nexus Repository</name> 
-          <url>http://123.57.152.75:8081/nexus/content/repositories/snapshots</url> 
+          <url>http://nexus.sqbj.com/content/repositories/snapshots</url> 
       </snapshotRepository> 
   </distributionManagement> 
 </project>

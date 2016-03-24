@@ -15,6 +15,8 @@
  */
 package org.mybatis.spring;
 
+
+import com.gigold.pay.framework.core.exception.AbortException;
 import static java.lang.reflect.Proxy.newProxyInstance;
 import static org.apache.ibatis.reflection.ExceptionUtil.unwrapThrowable;
 import static org.mybatis.spring.SqlSessionUtils.closeSqlSession;
@@ -38,7 +40,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.dao.support.PersistenceExceptionTranslator;
 
-import com.gigold.pay.framework.base.exception.GOExceptionTranslator;
 import com.gigold.pay.framework.core.exception.AbortException;
 
 /**
@@ -399,16 +400,16 @@ public class SqlSessionTemplate implements SqlSession {
           // release the connection to avoid a deadlock if the translator is no loaded. See issue #22
           closeSqlSession(sqlSession, SqlSessionTemplate.this.sqlSessionFactory);
           sqlSession = null;
-          Throwable translated = ((GOExceptionTranslator)SqlSessionTemplate.this.exceptionTranslator).translateException((PersistenceException) unwrapped);
-          if (translated != null) {
+          Throwable translated = ((GOExceptionTranslator)SqlSessionTemplate.this.exceptionTranslator).translateException((PersistenceException)unwrapped);
+          if (translated != null)
             unwrapped = translated;
-          }else{
-              unwrapped = new AbortException(CodeItem.DATAERROR,"mybatis has unwarpException3",this.getClass(),unwrapped);
-          }
-        }else{
-            unwrapped = new AbortException(CodeItem.DATAERROR,"mybatis has unwarpException4",this.getClass(),unwrapped);
+          else
+            unwrapped = new AbortException("80011", "mybatis has unwarpException3", getClass(), (Throwable)unwrapped);
         }
-        throw unwrapped;
+        else {
+          unwrapped = new AbortException("80011", "mybatis has unwarpException4", getClass(), (Throwable)unwrapped);
+        }
+        throw ((Throwable)unwrapped);
       } finally {
         if (sqlSession != null) {
           closeSqlSession(sqlSession, SqlSessionTemplate.this.sqlSessionFactory);
